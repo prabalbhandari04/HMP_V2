@@ -52,7 +52,7 @@ const Menu = styled.div`
 `
 
 const Navbar = () => {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
 
     return (
         <Container>
