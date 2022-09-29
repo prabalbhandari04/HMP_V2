@@ -38,9 +38,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       </Head>
 
-      <Root className='px-4 xl:px-0'>
+      <Root>
         <Navbar />
-        <div className='max-w-[1366px] mx-auto flex flex-col gap-y-8'>
+        <div className='max-w-[1366px] mx-auto flex flex-col gap-y-8 px-4'>
           { children }    
         </div>
       </Root>

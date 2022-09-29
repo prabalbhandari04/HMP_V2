@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Button from '../components/Button'
+
+import { BiMenuAltRight } from 'react-icons/bi'
+import ResNavbar from './ResNavbar'
 
 const Container = styled.div`
     width: 100%;
@@ -43,30 +46,47 @@ const NavItems = styled.li`
         width: 100%;
     }
 `
+const Menu = styled.div`
+    font-size: 36px;
+    color: ${({ theme }) => theme.text};
+`
 
 const Navbar = () => {
-  return (
-    <Container>
-        <div className='flex max-w-[1366px] mx-auto py-2 px-4 justify-between items-center'>
-            <Brand className='relative w-16'>
-                <img src='/logo/hmp_logo.png' alt='logo' className='w-full h-auto' />
-            </Brand>
+    const [open, setOpen] = useState(true)
 
-            <div className='flex gap-x-12 items-center'>
-                <ul className='flex gap-x-8 items-center'>
-                    <NavItems>Home</NavItems>
-                    <NavItems>Services</NavItems>
-                    <NavItems>Blog</NavItems>
-                    <NavItems>About</NavItems>
-                </ul>
+    return (
+        <Container>
+            <nav className='flex max-w-[1366px] mx-auto py-2 px-4 justify-between items-center'>
+                <Brand className='relative w-16'>
+                    <img src='/logo/hmp_logo.png' alt='logo' className='w-full h-auto' />
+                </Brand>
 
-                <Button 
-                    text='Login'
+                <div className='lg:flex gap-x-16 items-center hidden'>
+                    <ul className='flex gap-x-12 items-center'>
+                        <NavItems>Home</NavItems>
+                        <NavItems>Become Expert</NavItems>
+                        <NavItems>Assign Task</NavItems>
+                        <NavItems>Blog</NavItems>
+                        <NavItems>About</NavItems>
+                    </ul>
+
+                    <Button 
+                        text='Login'
+                    />
+                </div>
+
+                <Menu className='lg:hidden'>
+                    <BiMenuAltRight onClick={() => setOpen(true)}/>
+                </Menu>
+            </nav>
+            {
+                open &&
+                <ResNavbar 
+                    handleClose={() => setOpen(false)}
                 />
-            </div>
-        </div>
-    </Container>
-  )
+            }
+        </Container>
+    )
 }
 
 export default Navbar
