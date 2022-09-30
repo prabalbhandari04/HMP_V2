@@ -2,11 +2,17 @@ import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
-import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { AiOutlineClose } from 'react-icons/ai'
+import { MdNightlight, MdLightMode } from 'react-icons/md'
+
+import { useThemeContext } from '../context/ThemeContextProvider'
+import { themes } from '../context/Themes'
+import { Icon } from './Navbar'
+import useThemeChanger from '../hooks/useThemeChanger'
 
 interface NavProps {
     active?: boolean,
-    handleClose?: () => void
+    handleClose?: any
 }
 
 const Container = styled.div`
@@ -38,15 +44,11 @@ const ListItems = styled.li<NavProps>`
         opacity: ${props => props.active ? '1' : '0'};
     }
 `
-const Line = styled.div`
-    width: 4px;
-    height: 80px;
-    border-radius: 0 0 14px 14px;
-    background-color: ${({ theme }) => theme.white};
-`
-
 
 const ResNavbar: FC<NavProps> = ({ handleClose }) => {
+    const { theme } = useThemeContext();
+    const { toggleTheme } = useThemeChanger();
+
     const router = useRouter()
     const getIsActive = (path: string) => {
         if(router.pathname === path) {
@@ -57,10 +59,18 @@ const ResNavbar: FC<NavProps> = ({ handleClose }) => {
     }
     
     return (
-        <Container className='animate-slide-down flex flex-col gap-y-16 items-center'>
-            <div className='flex flex-col items-center'>
-                <Line />
-                <AiOutlineCloseCircle className='text-[45px] text-[#fff] -mt-1' onClick={handleClose}/>
+        <Container className='animate-slide-down flex flex-col gap-y-16 justify-center items-center'>
+            <div className='w-full px-16 flex justify-between items-center'>
+                <Icon onClick={() => toggleTheme()}>
+                    {
+                        theme === themes.light ? 
+                        <MdNightlight className='text-[#f7f7f7]' /> :
+                        <MdLightMode className='text-[#f7f7f7]' />
+                    }
+                </Icon>
+                <Icon onClick={handleClose}>
+                    <AiOutlineClose className='text-[#f7f7f7] text-[27px]'/>
+                </Icon>
             </div>
             <ul className='flex flex-col justify-center items-center gap-y-8'>
                 <ListItems active={getIsActive('/')}>Home</ListItems>

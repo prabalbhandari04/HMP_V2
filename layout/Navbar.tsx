@@ -61,7 +61,7 @@ const Menu = styled.div`
     font-size: 36px;
     color: ${({ theme }) => theme.text};
 `
-const Icon = styled.div`
+export const Icon = styled.div`
     position: relative;
     font-size: 24px;
     color: ${({ theme }) => theme.text};

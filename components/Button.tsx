@@ -8,6 +8,7 @@ interface BtnProps {
 const Btn = styled.button`
     background: linear-gradient(-45deg, ${props => props.theme.primary}, ${props => props.theme.secondary}, ${props => props.theme.primary});
     background-size: 400%;
+    width: max-content;
     max-height: 60px;
     display: flex;
     justify-content: center;

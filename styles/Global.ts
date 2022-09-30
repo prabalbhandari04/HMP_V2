@@ -15,22 +15,51 @@ export default createGlobalStyle<ThemeContextType>`
     }
     h1{
         font-family: 'Poppins', sans-serif;
-        font-size: 27px;
+        font-size: 72px;
         font-weight: 700;
     }
-    h3{
+    h2{
         font-family: 'Poppins', sans-serif;
-        font-size: 18px;
+        font-size: 21px;
         font-weight: 500;
     }
     p{
         font-family: 'Poppins', sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 300;
     }
     span {
         font-family: 'Poppins', sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 400;
+    }
+
+    @media (max-width: 800px) {
+        h1{
+            font-size: 45px;
+        }
+        h2{
+            font-size: 18px;
+        }
+        p{
+            font-size: 14px;
+        }
+        span {
+            font-size: 14px;
+        }
+    }
+    @media (max-width: 425px) {
+        h1{
+            font-size: 36px;
+        }
+        h2{
+            font-size: 16px;
+        }
+        p{
+            font-size: 12px;
+        }
+        span {
+            font-size: 12px;
+        }
     }
 `
