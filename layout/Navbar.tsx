@@ -1,14 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Button from '../components/Button'
+import { useRouter } from 'next/router'
 
 import { BiMenuAltRight } from 'react-icons/bi'
 import { MdNightlight, MdLightMode } from 'react-icons/md'
 
 import ResNavbar from './ResNavbar'
+import Button from '../components/Button'
+
 import { useThemeContext } from '../context/ThemeContextProvider'
 import useThemeChanger from '../hooks/useThemeChanger'
+
+interface NavProps {
+    active?: boolean,
+}
 
 const Container = styled.div`
     width: 100%;
@@ -35,8 +41,9 @@ const Brand = styled.div`
         transform: scale(8);
     }
 `
-const NavItems = styled.li`
+const NavItems = styled.li<NavProps>`
     cursor: pointer;
+    color: ${props => props.active ? props.theme.primary : props.theme.text};
 
     &::after {
         content: '';
@@ -47,7 +54,7 @@ const NavItems = styled.li`
         transition: all 0.3s;
     }
     &&:hover::after {
-        width: 100%;
+        width: ${props => props.active ? '0' : '100%'};
     }
 `
 const Menu = styled.div`
@@ -79,10 +86,19 @@ const Icon = styled.div`
 `
 
 const Navbar = () => {
+    const router = useRouter()
     const { theme } = useThemeContext()
     const { toggleTheme } = useThemeChanger()
 
     const [open, setOpen] = useState(false)
+
+    const getIsActive = (path: string) => {
+        if(router.pathname === path) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     return (
         <Container>
@@ -93,11 +109,11 @@ const Navbar = () => {
 
                 <div className='lg:flex gap-x-16 items-center hidden'>
                     <ul className='flex gap-x-12 items-center'>
-                        <NavItems>Home</NavItems>
-                        <NavItems>Become Expert</NavItems>
-                        <NavItems>Assign Task</NavItems>
-                        <NavItems>Blog</NavItems>
-                        <NavItems>About</NavItems>
+                        <NavItems active={getIsActive('/')}>Home</NavItems>
+                        <NavItems active={getIsActive('/expert')}>Become Expert</NavItems>
+                        <NavItems active={getIsActive('/task')}>Assign Task</NavItems>
+                        <NavItems active={getIsActive('/blog')}>Blog</NavItems>
+                        <NavItems active={getIsActive('/about')}>About</NavItems>
                     </ul>
 
                     <div className='flex gap-x-8 items-center'>
