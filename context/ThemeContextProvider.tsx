@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { ThemeContextType } from '../@types/contextType';
+import { ThemeContextType, themeType } from '../@types/contextType';
 import { themes } from './Themes';
 
 export const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const ThemeProvider: React.FC<Props> = ({ children }) => {
-    const [theme, setTheme] = useState(themes.light);
+    const [theme, setTheme] = useState<themeType>(themes.light);
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>

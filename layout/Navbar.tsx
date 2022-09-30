@@ -4,7 +4,11 @@ import styled from 'styled-components'
 import Button from '../components/Button'
 
 import { BiMenuAltRight } from 'react-icons/bi'
+import { MdNightlight, MdLightMode } from 'react-icons/md'
+
 import ResNavbar from './ResNavbar'
+import { useThemeContext } from '../context/ThemeContextProvider'
+import useThemeChanger from '../hooks/useThemeChanger'
 
 const Container = styled.div`
     width: 100%;
@@ -50,8 +54,34 @@ const Menu = styled.div`
     font-size: 36px;
     color: ${({ theme }) => theme.text};
 `
+const Icon = styled.div`
+    position: relative;
+    font-size: 24px;
+    color: ${({ theme }) => theme.text};
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        filter: blur(2px);
+        z-index: -1;
+        background-color: ${({ theme }) => theme.primary}25;
+        transition: all 0.3s;
+    }
+    &:hover::after {
+        transform: scale(5);
+    }
+`
 
 const Navbar = () => {
+    const { theme } = useThemeContext()
+    const { toggleTheme } = useThemeChanger()
+
     const [open, setOpen] = useState(false)
 
     return (
@@ -70,9 +100,18 @@ const Navbar = () => {
                         <NavItems>About</NavItems>
                     </ul>
 
-                    <Button 
-                        text='Login'
-                    />
+                    <div className='flex gap-x-8 items-center'>
+                        <Icon onClick={() => toggleTheme() }>
+                            {
+                                theme?.dark ? 
+                                <MdLightMode /> :
+                                <MdNightlight />
+                            }
+                        </Icon>
+                        <Button 
+                            text='Login'
+                        />
+                    </div>
                 </div>
 
                 <Menu className='lg:hidden'>

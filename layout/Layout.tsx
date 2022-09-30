@@ -1,9 +1,6 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import Head from 'next/head'
-import { useContext } from 'react'
-
 import styled, { ThemeProvider } from 'styled-components'
-import { themeType } from '../@types/contextType'
 
 import { useThemeContext } from '../context/ThemeContextProvider'
 import Global from '../styles/Global'
