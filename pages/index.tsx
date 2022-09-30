@@ -1,11 +1,27 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSpring, animated } from 'react-spring'
 import Button from '../components/Button'
 
 const index = () => {
-  const experts = 12
-  const users = 28
-  const assignments = 20
+  const data = {
+    experts: 14,
+    users: 32,
+    assignments: 9,
+  }
+  const experts = useSpring({
+    val: data.experts,
+    from: { val: 0 },
+  })
+  const users = useSpring({
+    val: data.users,
+    from: { val: 0 },
+  })
+  const assignments = useSpring({
+    val: data.assignments,
+    from: { val: 0 },
+  })
 
   return (
     <div className='w-full min-h-[80vh] lg:min-h-[800px] flex flex-col-reverse lg:flex-row gap-8 justify-center items-center'> 
@@ -13,28 +29,15 @@ const index = () => {
         <h1 className='uppercase leading-none text-center lg:text-left'>let experts handle your assignment</h1>
         <div className='flex gap-x-12 mb-8'>
           <div className='flex gap-x-2 items-center'>
-            {
-              experts < 50 ?
-              <h2 className='font-medium'>45</h2> :
-              <h2 className='font-medium'>50 +</h2> 
-            }
+            <animated.h2 className='font-medium'>{experts.val.interpolate(val => Math.floor(val))}</animated.h2>
             <p>Experts</p>
           </div>
           <div className='flex gap-x-2 items-center'>
-            {
-              (users - experts) < 100 ?
-              <h2 className='font-medium'>84</h2> :
-              <h2 className='font-medium'>100 +</h2> 
-            }
+            <animated.h2 className='font-medium'>{users.val.interpolate(val => Math.floor(val))}</animated.h2>
             <p>Users</p>
           </div>
           <div className='flex gap-x-2 items-center'>
-              {
-                assignments < 40 ?
-                <h2 className='font-medium'>30</h2> :
-                <h2 className='font-medium'>45 +</h2> 
-              }
-            
+            <animated.h2 className='font-medium'>{assignments.val.interpolate(val => Math.floor(val))}</animated.h2> 
             <p>Assignments</p>
           </div>
         </div>
