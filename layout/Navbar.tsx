@@ -7,7 +7,7 @@ import { BiMenuAltRight } from 'react-icons/bi'
 import { MdNightlight, MdLightMode } from 'react-icons/md'
 
 import ResNavbar from './ResNavbar'
-import Button from '../components/Button'
+import { PrimaryButton } from '../components/Button'
 
 import { useThemeContext } from '../context/ThemeContextProvider'
 import useThemeChanger from '../hooks/useThemeChanger'
@@ -124,7 +124,7 @@ const Navbar = () => {
                                 <MdNightlight />
                             }
                         </Icon>
-                        <Button 
+                        <PrimaryButton 
                             text='Login'
                         />
                     </div>

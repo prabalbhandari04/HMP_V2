@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSpring, animated } from 'react-spring'
-import Button from '../components/Button'
+import { FlatButton, PrimaryButton } from '../components/Button'
 
 const index = () => {
   const data = {
@@ -24,7 +24,7 @@ const index = () => {
   })
 
   return (
-    <div className='w-full min-h-[80vh] lg:min-h-[800px] flex flex-col-reverse lg:flex-row gap-8 justify-center items-center'> 
+    <div className='w-full min-h-[90vh] lg:min-h-[800px] flex flex-col-reverse lg:flex-row gap-8 justify-center items-center'> 
       <div className='w-full lg:w-2/5 flex flex-col gap-y-8 mt-12 md:mt-0 items-center lg:items-start'>
         <h1 className='uppercase leading-none text-center lg:text-left'>let experts handle your assignment</h1>
         <div className='flex gap-x-12 mb-8'>
@@ -42,7 +42,10 @@ const index = () => {
           </div>
         </div>
 
-        <Button text='Get Started' />
+        <div className='flex gap-x-4'>
+          <PrimaryButton text='Get Started' />
+          <FlatButton text='Become an Expert' />
+        </div>
       </div>
       <div className='w-full lg:w-1/2 flex lg:justify-end'>
         <img src='/vectors/working.png' alt='working' className='w-11/12 h-auto scale-110 lg:scale-125' />

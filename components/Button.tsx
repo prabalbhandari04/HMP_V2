@@ -33,8 +33,28 @@ const Btn = styled.button`
         color: ${props => props.theme.white};
     }
 `
+const FlatBtn = styled.button`
+    background: transparent;
+    border: none;
+    width: max-content;
+    max-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-const Button: FC<BtnProps> = ({ text }) => {
+    padding: 1rem 2.5rem;
+    
+    span {
+        color: ${props => props.theme.primary};
+        text-shadow: 0px 3px 3px ${props => props.theme.primary}50;
+    }
+
+    &:hover span{
+        transform: scale(1.05);
+    }
+`
+
+const PrimaryButton: FC<BtnProps> = ({ text }) => {
   return (
     <Btn>
         <span>
@@ -44,4 +64,14 @@ const Button: FC<BtnProps> = ({ text }) => {
   )
 }
 
-export default Button
+const FlatButton: FC<BtnProps> = ({ text }) => {
+    return (
+        <FlatBtn>
+            <span>
+                {text}
+            </span>
+        </FlatBtn>
+    )
+}
+
+export { PrimaryButton, FlatButton }
