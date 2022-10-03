@@ -7,6 +7,7 @@ export default createGlobalStyle<ThemeContextType>`
         padding: 0;
         font-family: 'Poppins', sans-serif;
         color: ${props => props.theme.text};
+        background: ${props => props.theme.body};
     }
     * {
         margin: 0;
@@ -19,6 +20,11 @@ export default createGlobalStyle<ThemeContextType>`
         font-weight: 700;
     }
     h2{
+        font-family: 'Poppins', sans-serif;
+        font-size: 27px;
+        font-weight: 500;
+    }
+    h3{
         font-family: 'Poppins', sans-serif;
         font-size: 21px;
         font-weight: 500;
@@ -39,6 +45,9 @@ export default createGlobalStyle<ThemeContextType>`
             font-size: 45px;
         }
         h2{
+            font-size: 21px;
+        }
+        h3{
             font-size: 18px;
         }
         p{
@@ -53,6 +62,9 @@ export default createGlobalStyle<ThemeContextType>`
             font-size: 36px;
         }
         h2{
+            font-size: 18px;
+        }
+        h3{
             font-size: 16px;
         }
         p{

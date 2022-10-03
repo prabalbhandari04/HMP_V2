@@ -1,6 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 import { FaCoins, FaUserSecret } from 'react-icons/fa'
 import { BsFillFileEarmarkCheckFill } from 'react-icons/bs'
@@ -29,46 +32,51 @@ const Card = styled.div`
 `
 
 const Services = () => {
-  return (
-    <Container className='gap-y-4'>
-        <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8'>
-            <FaCoins />
-            <div className='flex flex-col gap-2 text-center'>
-                <p>Money Back Guarantee</p>
-                {/* <p>
-                    70% money can be returned if the assignment is cancelled with in 5 hours. If the client is dissatisifed with the work, then 10 to 50% refund will be provided after the verification
-                </p> */}
-            </div>
-        </Card>
-        <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8'>
-            <BsFillFileEarmarkCheckFill />
-            <div className='flex flex-col gap-2 text-center'>
-                <p>No Plagarism</p>
-                {/* <p>
-                    Your assignment is always done from scratch and you do not have to worry about similarities.
-                </p> */}
-            </div>
-        </Card>
-        <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8'>
-            <FaUserSecret />
-            <div className='flex flex-col gap-2 text-center'>
-                <p>Confidentiality Guarantee</p>
-                {/* <p>
-                    It's just you and us. We do not ask for your personal details.
-                </p> */}
-            </div>
-        </Card>
-        <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8'>
-            <BiRevision />
-            <div className='flex flex-col gap-2 text-center'>
-                <p>Free Revisions</p>
-                {/* <p>
-                    You also need to know what is done, our experts will revise assignment if you want for free.
-                </p> */}
-            </div>
-        </Card>
-    </Container>
-  )
+    useEffect(() => {
+        AOS.init();
+        AOS.refresh();
+    }, [])
+
+    return (
+        <Container className='gap-y-4'>
+            <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8' data-aos='fade-up' data-aos-duration='1000'>
+                <FaCoins />
+                <div className='flex flex-col gap-2 text-center'>
+                    <p>Money Back Guarantee</p>
+                    {/* <p>
+                        70% money can be returned if the assignment is cancelled with in 5 hours. If the client is dissatisifed with the work, then 10 to 50% refund will be provided after the verification
+                    </p> */}
+                </div>
+            </Card>
+            <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8' data-aos='fade-up' data-aos-duration='1500'>
+                <BsFillFileEarmarkCheckFill />
+                <div className='flex flex-col gap-2 text-center'>
+                    <p>No Plagarism</p>
+                    {/* <p>
+                        Your assignment is always done from scratch and you do not have to worry about similarities.
+                    </p> */}
+                </div>
+            </Card>
+            <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8' data-aos='fade-up' data-aos-duration='2000'>
+                <FaUserSecret />
+                <div className='flex flex-col gap-2 text-center'>
+                    <p>Confidentiality Guarantee</p>
+                    {/* <p>
+                        It's just you and us. We do not ask for your personal details.
+                    </p> */}
+                </div>
+            </Card>
+            <Card className='w-full md:w-[48%] lg:w-72 rounded-lg gap-8' data-aos='fade-up' data-aos-duration='2500'>
+                <BiRevision />
+                <div className='flex flex-col gap-2 text-center'>
+                    <p>Free Revisions</p>
+                    {/* <p>
+                        You also need to know what is done, our experts will revise assignment if you want for free.
+                    </p> */}
+                </div>
+            </Card>
+        </Container>
+    )
 }
 
 export default Services

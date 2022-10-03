@@ -24,20 +24,20 @@ const Landing = () => {
   })
 
   return (
-    <div className='w-full min-h-[90vh] lg:min-h-[800px] flex flex-col-reverse lg:flex-row gap-8 justify-center items-center'> 
+    <div className='w-full pt-36 flex flex-col-reverse lg:flex-row gap-8 justify-center items-center'> 
         <div className='w-full lg:w-2/5 flex flex-col gap-y-8 mt-12 md:mt-0 items-center lg:items-start'>
             <h1 className='uppercase leading-none text-center lg:text-left'>let experts handle your assignment</h1>
             <div className='flex gap-x-12 mb-8'>
                 <div className='flex gap-x-2 items-center'>
-                    <animated.h2 className='font-medium'>{experts.val.interpolate(val => Math.floor(val))}</animated.h2>
+                    <animated.h3 className='font-medium'>{experts.val.interpolate(val => Math.floor(val))}</animated.h3>
                     <p>Experts</p>
                 </div>
                 <div className='flex gap-x-2 items-center'>
-                    <animated.h2 className='font-medium'>{users.val.interpolate(val => Math.floor(val))}</animated.h2>
+                    <animated.h3 className='font-medium'>{users.val.interpolate(val => Math.floor(val))}</animated.h3>
                     <p>Users</p>
                 </div>
                 <div className='flex gap-x-2 items-center'>
-                    <animated.h2 className='font-medium'>{assignments.val.interpolate(val => Math.floor(val))}</animated.h2> 
+                    <animated.h3 className='font-medium'>{assignments.val.interpolate(val => Math.floor(val))}</animated.h3> 
                     <p>Assignments</p>
                 </div>
             </div>
