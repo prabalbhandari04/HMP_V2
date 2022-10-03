@@ -7,6 +7,7 @@ module.exports = {
     join(__dirname, './pages/**/*.{js,ts,jsx,tsx}'),
     join(__dirname, './components/**/*.{js,ts,jsx,tsx}'),
     join(__dirname, './layout/**/*.{js,ts,jsx,tsx}'),
+    join(__dirname, './features/**/*.{js,ts,jsx,tsx}'),
   ],
   theme: {
     extend: {

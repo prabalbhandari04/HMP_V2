@@ -2,6 +2,7 @@ export const themes = {
     light: {
         dark: false,
         body: '#f9f9f9',
+        body_secondary: '#f8f4ff',
         text: '#16213E',
         primary: '#8C52FF',
         secondary: '#7544d4',
@@ -13,6 +14,7 @@ export const themes = {
     dark: {
         dark: true,
         body: '#1A132F',
+        body_secondary: '#2f1b55',
         text: '#f9f9f9',
         primary: '#8C52FF',
         secondary: '#7544d4',

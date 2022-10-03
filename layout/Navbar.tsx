@@ -21,6 +21,7 @@ const Container = styled.div`
     background-color: ${({ theme }) => theme.body};
     position: sticky;
     top: 0;
+    z-index: 10;
 `
 const Brand = styled.div`
     &::after {
