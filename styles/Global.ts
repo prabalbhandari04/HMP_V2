@@ -33,6 +33,7 @@ export default createGlobalStyle<ThemeContextType>`
         font-family: 'Poppins', sans-serif;
         font-size: 16px;
         font-weight: 300;
+        opacity: 0.8;
     }
     span {
         font-family: 'Poppins', sans-serif;
