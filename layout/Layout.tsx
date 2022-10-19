@@ -7,6 +7,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { useThemeContext } from '../context/ThemeContextProvider'
 import { themes } from '../context/Themes'
 import Global from '../styles/Global'
+import Footer from './Footer'
 import Navbar from './Navbar'
 
 interface LayoutProps {
@@ -55,6 +56,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className='max-w-[1366px] mx-auto flex flex-col gap-y-8 px-4'>
           { children }    
         </div>
+        <Footer />
       </Root>
     </ThemeProvider>
   )
