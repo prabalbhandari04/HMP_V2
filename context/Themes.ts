@@ -15,7 +15,7 @@ export const themes = {
     dark: {
         dark: true,
         body: '#1A132F',
-        body_secondary: '#2f1b55',
+        body_secondary: '#2f1b5550',
         text: '#f9f9f9',
         primary: '#8C52FF',
         secondary: '#7544d4',
