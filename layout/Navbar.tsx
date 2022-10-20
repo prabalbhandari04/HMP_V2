@@ -127,6 +127,7 @@ const Navbar = () => {
                         </Icon>
                         <PrimaryButton 
                             text='Login'
+                            onClick = {() => router.push('/auth')}
                         />
                     </div>
                 </div>

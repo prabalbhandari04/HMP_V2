@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 interface BtnProps {
     text: string
+    onClick?: () => void
 }
 
 const Btn = styled.button`
@@ -54,9 +55,9 @@ const FlatBtn = styled.button`
     }
 `
 
-const PrimaryButton: FC<BtnProps> = ({ text }) => {
+const PrimaryButton: FC<BtnProps> = ({ text, onClick }) => {
   return (
-    <Btn>
+    <Btn onClick={onClick}>
         <span>
             {text}
         </span>
@@ -64,9 +65,9 @@ const PrimaryButton: FC<BtnProps> = ({ text }) => {
   )
 }
 
-const FlatButton: FC<BtnProps> = ({ text }) => {
+const FlatButton: FC<BtnProps> = ({ text, onClick }) => {
     return (
-        <FlatBtn>
+        <FlatBtn onClick={onClick}>
             <span>
                 {text}
             </span>

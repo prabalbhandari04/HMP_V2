@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-page-custom-font */
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
@@ -22,6 +23,8 @@ const Root = styled.div`
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { theme, setTheme } = useThemeContext();
+
+  const router = useRouter();
 
   useEffect(() => {
     const darkMode = localStorage.getItem('dark');
@@ -52,7 +55,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </Head>
 
       <Root>
-        <Navbar />
+        {
+          router.pathname !== '/auth' && <Navbar />
+        }
         <div className='max-w-[1366px] mx-auto flex flex-col gap-y-8 px-4'>
           { children }    
         </div>
