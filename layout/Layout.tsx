@@ -38,6 +38,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   }, [])
 
+  const forbiddenPaths = ['/auth', '/auth/forgot', '/auth/change']
+
   return (
     <ThemeProvider theme={theme}>
       <Global />
@@ -55,13 +57,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </Head>
 
       <Root>
-        {
-          router.pathname !== '/auth' && <Navbar />
-        }
+        {!forbiddenPaths.some(path => router.pathname.includes(path)) && <Navbar />}
+
         <div className='max-w-[1366px] mx-auto flex flex-col gap-y-8 px-4'>
           { children }    
         </div>
-        <Footer />
+
+        {!forbiddenPaths.some(path => router.pathname.includes(path)) && <Footer />}
+
       </Root>
     </ThemeProvider>
   )
