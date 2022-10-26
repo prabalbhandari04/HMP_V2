@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 interface BtnProps {
     text: string
-    onClick?: () => void
+    onClick?: any
 }
 
 const Btn = styled.button`
@@ -42,16 +42,48 @@ const FlatBtn = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-
     padding: 1rem 2.5rem;
-    
+
     span {
         color: ${props => props.theme.primary};
         text-shadow: 0px 3px 3px ${props => props.theme.primary}50;
     }
+`
+const PromiseBtn = styled.button`
+    background: linear-gradient(-45deg, ${props => props.theme.primary}, ${props => props.theme.secondary}, ${props => props.theme.primary});
+    mix-blend-mode: luminosity;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 36px;
+    gap: 0.75rem;
 
-    &:hover span{
-        transform: scale(1.05);
+    padding: 1rem 2.5rem;
+
+    span {
+        color: ${props => props.theme.white};
+    }
+
+    cursor: not-allowed;
+`
+const Loader = styled.div`
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #FFF;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+
+    @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
     }
 `
 
@@ -75,4 +107,15 @@ const FlatButton: FC<BtnProps> = ({ text, onClick }) => {
     )
 }
 
-export { PrimaryButton, FlatButton }
+const PromiseButton: FC<BtnProps> = ({ text }) => {
+    return (
+        <PromiseBtn>
+            <Loader />
+            <span>
+                {text}
+            </span>
+        </PromiseBtn>
+    )
+}
+
+export { PrimaryButton, FlatButton, PromiseButton }

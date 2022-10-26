@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
+
+import { useSelector, useDispatch } from 'react-redux'
 
 import { BiMenuAltRight } from 'react-icons/bi'
 import { MdNightlight, MdLightMode } from 'react-icons/md'
@@ -11,6 +13,7 @@ import { PrimaryButton } from '../components/Button'
 
 import { useThemeContext } from '../context/ThemeContextProvider'
 import useThemeChanger from '../hooks/useThemeChanger'
+import { getUserInfo } from '../redux/apiCalls'
 
 interface NavProps {
     active?: boolean,
@@ -88,6 +91,10 @@ export const Icon = styled.div`
 
 const Navbar = () => {
     const router = useRouter()
+    const { isLogged } = useSelector((state: any) => state.auth)
+    const { token } = useSelector((state: any) => state.token)
+    const { user } = useSelector((state: any) => state.user)
+
     const { theme } = useThemeContext()
     const { toggleTheme } = useThemeChanger()
 
@@ -100,6 +107,14 @@ const Navbar = () => {
             return false
         }
     }
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if(token) {
+            getUserInfo(dispatch, token.access_token)
+        }
+    }, [dispatch, token])
+
 
     return (
         <Container>
@@ -125,10 +140,18 @@ const Navbar = () => {
                                 <MdNightlight />
                             }
                         </Icon>
-                        <PrimaryButton 
-                            text='Login'
-                            onClick = {() => router.push('/auth')}
-                        />
+                        {
+                            isLogged ?
+                            <PrimaryButton 
+                                onClick={() => router.push('/dashboard')}
+                                text={user.username} 
+                            /> 
+                            :
+                            <PrimaryButton 
+                                text='Login'
+                                onClick = {() => router.push('/auth')}
+                            />
+                        }
                     </div>
                 </div>
 
