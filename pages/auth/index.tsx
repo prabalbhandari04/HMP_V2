@@ -82,7 +82,7 @@ const Auth = () => {
                 }
             </div>  
 
-            <div className='flex-1 h-[80vh] flex items-center justify-center'>
+            <div className='hidden flex-1 h-[80vh] lg:flex items-center justify-center'>
                 <img src='/vectors/expert.png' alt='Let Experts handle your assignment' className='w-full h-auto object-cover' />
             </div>      
         </Container>

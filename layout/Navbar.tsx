@@ -14,6 +14,7 @@ import { PrimaryButton } from '../components/Button'
 import { useThemeContext } from '../context/ThemeContextProvider'
 import useThemeChanger from '../hooks/useThemeChanger'
 import { getUserInfo } from '../redux/apiCalls'
+import Link from 'next/link'
 
 interface NavProps {
     active?: boolean,
@@ -95,6 +96,8 @@ const Navbar = () => {
     const { token } = useSelector((state: any) => state.token)
     const { user } = useSelector((state: any) => state.user)
 
+    console.log('token in navbar', token)
+
     const { theme } = useThemeContext()
     const { toggleTheme } = useThemeChanger()
 
@@ -125,11 +128,21 @@ const Navbar = () => {
 
                 <div className='lg:flex gap-x-16 items-center hidden'>
                     <ul className='flex gap-x-12 items-center'>
-                        <NavItems active={getIsActive('/')}>Home</NavItems>
-                        <NavItems active={getIsActive('/expert')}>Become Expert</NavItems>
-                        <NavItems active={getIsActive('/task')}>Assign Task</NavItems>
-                        <NavItems active={getIsActive('/blog')}>Blog</NavItems>
-                        <NavItems active={getIsActive('/about')}>About</NavItems>
+                        <Link href='/'>
+                            <NavItems active={getIsActive('/')}>Home</NavItems>
+                        </Link>
+                        <Link href='/services/expert'>
+                            <NavItems active={getIsActive('/expert')}>Become Expert</NavItems>
+                        </Link>
+                        <Link href='/services/assign'>
+                            <NavItems active={getIsActive('/task')}>Assign Task</NavItems>
+                        </Link>
+                        <Link href='/blogs'>
+                           <NavItems active={getIsActive('/blog')}>Blog</NavItems>
+                        </Link>
+                        <Link href='/about'>
+                            <NavItems active={getIsActive('/about')}>About</NavItems>
+                        </Link>
                     </ul>
 
                     <div className='flex gap-x-8 items-center'>

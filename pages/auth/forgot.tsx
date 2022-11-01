@@ -3,7 +3,7 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
-import { PrimaryButton } from '../../components/Button'
+import { FlatButton, PrimaryButton } from '../../components/Button'
 
 const Container = styled.div`
     width: 100%;
@@ -40,7 +40,7 @@ const Forgot = () => {
 
     return (
         <Container>
-            <div className='w-full md:w-96 mx-auto lg:mx-0 h-[80vh] flex flex-col justify-center gap-y-16'>
+            <div className='w-full md:w-96 mx-auto lg:mx-0 h-[80vh] hidden lg:flex flex-col justify-center gap-y-16'>
                 <div className='h-[50vh] flex flex-col justify-between'>
                     <div className='flex flex-col gap-y-3'>
                         <h1 className='leading-[4.5rem]'>Forgot Password?</h1>
@@ -51,7 +51,7 @@ const Forgot = () => {
                 </div>
             </div>
 
-            <Wrapper className='w-1/2 h-[60vh] flex flex-col p-8 gap-y-4'>
+            <Wrapper className='w-full lg:w-1/2 h-[60vh] flex flex-col p-8 gap-y-4'>
 
                 <form className='h-full flex flex-col gap-y-12 justify-around items-center'>
                     <div className='flex flex-col gap-y-2'>
@@ -63,8 +63,13 @@ const Forgot = () => {
                         <label>Email Address</label>
                         <Input type='email' className='w-full rounded-md p-4' />
                     </div>
-
-                    <PrimaryButton text='Verify' />
+                    
+                    <div className='w-full flex flex-col items-center'>
+                        <PrimaryButton text='Verify' />
+                        <div className='lg:hidden'>
+                            <FlatButton text='Back to Login' onClick={() => router.push('/auth')} />
+                        </div>
+                    </div>
                 </form>
             </Wrapper>
         </Container>

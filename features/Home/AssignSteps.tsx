@@ -8,14 +8,11 @@ import 'aos/dist/aos.css'
 import { RiQuillPenFill } from 'react-icons/ri'
 
 const stepsdata = [
-    'Register as a User and Login',
-    'Fill up the form with appropriate informations',
-    'Attach you task PDF file explaing everything needed.',
-    'If you have other resources to attach please kindly zip them together and upload them.',
-    'Admins will receive your task and start searching for the best expert to work on it.',
-    'You will be notified once the task is assigned to an expert.',
-    'You will have to pay us through the QR code provided to you one week before your deadline.',
-    'You will receive your task on time and you will be able to review it.',
+    'We will assign you a dedicated expert',
+    'Your identity will be kept anonymous',
+    'We will check the plagarism and quality of work',
+    'We will deliver the work on time',
+    'You will get the best quality work',
 ]
 
 const Icon = styled.div`
@@ -35,8 +32,8 @@ const AssignSteps = () => {
             </div>
 
             <div className='w-full md:w-1/2 flex flex-col gap-y-8'>
-                <h2 data-aos='fade-up'>How do you begin?</h2>
-                <ul className='flex flex-col gap-y-2 ml-4' data-aos='fade-up' data-aos-duration='1500'>
+                <h2 data-aos='fade-up'>Benefits of Trusting Us</h2>
+                <ul className='flex flex-col gap-y-2' data-aos='fade-up' data-aos-duration='1500'>
                 {
                     stepsdata.map((step, index) => (    
                         <li key={index}>
