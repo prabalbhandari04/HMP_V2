@@ -58,7 +58,7 @@ const Register = () => {
 
         if(data.email === '' || data.password === '' || data.confirmPassword === '' || data.username === '') {
             setIsError({
-                ...error,
+                ...isError,
                 fields: true,
                 password: false
             })
@@ -66,7 +66,7 @@ const Register = () => {
         }
         else if(data.password !== data.confirmPassword) {
             setIsError({
-                ...error,
+                ...isError,
                 fields: false,
                 password: true
             })
@@ -74,7 +74,7 @@ const Register = () => {
         }
         else {
             setIsError({
-                ...error,
+                ...isError,
                 fields: false,
                 password: false
             })

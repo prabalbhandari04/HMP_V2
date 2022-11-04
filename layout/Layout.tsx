@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useThemeContext } from '../context/ThemeContextProvider'
 import { themes } from '../context/Themes'
@@ -13,9 +13,8 @@ import { themes } from '../context/Themes'
 import Global from '../styles/Global'
 import Footer from './Footer'
 import Navbar from './Navbar'
-import axiosInstance from '../utils/axios.config';
 
-import { getTokenFailure, getTokenStart, getTokenSuccess } from '../redux/features/tokenSlice';
+import { getToken } from '../redux/apiCalls';
 
 interface LayoutProps {
   children: React.ReactNode
@@ -28,6 +27,8 @@ const Root = styled.div`
 `
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const { isLogged } = useSelector((state: any) => state.auth)
+
   const { theme, setTheme } = useThemeContext();
 
   const router = useRouter();
@@ -47,21 +48,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const forbiddenPaths = ['/auth', '/auth/forgot', '/auth/change']
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    const getToken = async() => {
-      dispatch(getTokenStart())
-      try {
-        const res = await axiosInstance.post('/user/refresh_token', null) 
-        console.log('token:', res.data)
-        dispatch(getTokenSuccess(res.data))
-      }
-      catch(err: any) {
-        dispatch(getTokenFailure())
-      }
-    }
-
-    getToken();
-  }, [dispatch])
+  if(isLogged) {
+    getToken(dispatch)
+  }
 
   return (
     <ThemeProvider theme={theme}>

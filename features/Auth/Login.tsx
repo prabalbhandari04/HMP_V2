@@ -11,7 +11,6 @@ import { PrimaryButton, PromiseButton } from '../../components/Button'
 import { postAuthFailure, postAuthStart, postAuthSuccess } from '../../redux/features/authSlice'
 
 import axiosInstance from '../../utils/axios.config'
-import { getTokenFailure, getTokenStart, getTokenSuccess } from '../../redux/features/tokenSlice'
 
 const Icon = styled.div`
     font-size: 24px;
@@ -63,7 +62,6 @@ const Login = () => {
             setFields(false);
 
             dispatch(postAuthStart());
-            dispatch(getTokenStart())
 
             try {
                 const res = await axiosInstance.post('/user/login', { email: data.email, password: data.password });
@@ -73,15 +71,6 @@ const Login = () => {
             catch (err: any) {
                 dispatch(postAuthFailure())
                 setErrorMessage(err.response.data.msg);
-            }
-
-            try {
-                const res = await axiosInstance.get('/user/token');
-                dispatch(getTokenSuccess(res.data));
-            }
-            catch (err: any) {
-                dispatch(getTokenFailure())
-                console.log(err)
             }
         }
     }

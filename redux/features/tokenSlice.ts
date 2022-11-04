@@ -4,6 +4,7 @@ const initialState = {
     token: [],
     isFetching: false,
     error: false,
+    isValid: false,
 }
 
 const tokenSlice = createSlice({
@@ -18,10 +19,12 @@ const tokenSlice = createSlice({
             state.isFetching = false;
             state.token = action.payload;
             state.error = false;
+            state.isValid = true;
         },
         getTokenFailure: (state) => {
             state.isFetching = false;
             state.error = true;
+            state.isValid = false;
         }
     }
 })

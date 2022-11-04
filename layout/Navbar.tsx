@@ -93,10 +93,10 @@ export const Icon = styled.div`
 const Navbar = () => {
     const router = useRouter()
     const { isLogged } = useSelector((state: any) => state.auth)
-    const { token } = useSelector((state: any) => state.token)
+    const { token, isValid } = useSelector((state: any) => state.token)
     const { user } = useSelector((state: any) => state.user)
 
-    console.log('token in navbar', token)
+    console.log(isValid)
 
     const { theme } = useThemeContext()
     const { toggleTheme } = useThemeChanger()
@@ -113,10 +113,10 @@ const Navbar = () => {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        if(token) {
+        if(token && isValid) {
             getUserInfo(dispatch, token.access_token)
         }
-    }, [dispatch, token])
+    }, [dispatch, isValid, token])
 
 
     return (
