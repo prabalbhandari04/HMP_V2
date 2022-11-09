@@ -8,7 +8,7 @@ export const getToken = async(dispatch: Dispatch) => {
     dispatch(getTokenStart())
 
     try {
-        const res = await axiosInstance.get('/user/refresh_token');
+        const res = await axiosInstance.post('/user/refresh_token', null);
         dispatch(getTokenSuccess(res.data));
     }
     catch (err: any) {
