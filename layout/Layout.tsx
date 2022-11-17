@@ -14,8 +14,6 @@ import Global from '../styles/Global'
 import Footer from './Footer'
 import Navbar from './Navbar'
 
-import { getToken } from '../redux/apiCalls';
-
 interface LayoutProps {
   children: React.ReactNode
 }
@@ -27,8 +25,6 @@ const Root = styled.div`
 `
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { isLogged } = useSelector((state: any) => state.auth)
-
   const { theme, setTheme } = useThemeContext();
 
   const router = useRouter();
@@ -48,9 +44,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const forbiddenPaths = ['/auth', '/auth/forgot', '/auth/change']
 
   const dispatch = useDispatch();
-  if(isLogged) {
-    getToken(dispatch)
-  }
+  
 
   return (
     <ThemeProvider theme={theme}>

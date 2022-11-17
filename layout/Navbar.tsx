@@ -92,11 +92,9 @@ export const Icon = styled.div`
 
 const Navbar = () => {
     const router = useRouter()
-    const { isLogged } = useSelector((state: any) => state.auth)
-    const { token, isValid } = useSelector((state: any) => state.token)
+    const { token, isLogged } = useSelector((state: any) => state.token)
     const { user } = useSelector((state: any) => state.user)
 
-    console.log(isValid)
 
     const { theme } = useThemeContext()
     const { toggleTheme } = useThemeChanger()
@@ -112,12 +110,6 @@ const Navbar = () => {
     }
 
     const dispatch = useDispatch()
-    useEffect(() => {
-        if(token && isValid) {
-            getUserInfo(dispatch, token.access_token)
-        }
-    }, [dispatch, isValid, token])
-
 
     return (
         <Container>
@@ -132,10 +124,10 @@ const Navbar = () => {
                             <NavItems active={getIsActive('/')}>Home</NavItems>
                         </Link>
                         <Link href='/services/expert'>
-                            <NavItems active={getIsActive('/expert')}>Become Expert</NavItems>
+                            <NavItems active={getIsActive('/services/expert')}>Become Expert</NavItems>
                         </Link>
-                        <Link href='/services/assign'>
-                            <NavItems active={getIsActive('/task')}>Assign Task</NavItems>
+                        <Link href='/services/task'>
+                            <NavItems active={getIsActive('/services/task')}>Assign Task</NavItems>
                         </Link>
                         <Link href='/blogs'>
                            <NavItems active={getIsActive('/blog')}>Blog</NavItems>
@@ -156,7 +148,7 @@ const Navbar = () => {
                         {
                             isLogged ?
                             <PrimaryButton 
-                                onClick={() => router.push('/dashboard')}
+                                onClick={() => router.push('/profile')}
                                 text={user.username} 
                             /> 
                             :

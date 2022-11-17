@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,9 +8,10 @@ import { FaRegDotCircle } from 'react-icons/fa'
 import { GoPrimitiveDot } from 'react-icons/go'
 
 import { PrimaryButton, PromiseButton } from '../../components/Button'
-import { postAuthFailure, postAuthStart, postAuthSuccess } from '../../redux/features/authSlice'
 
-import axiosInstance from '../../utils/axios.config'
+import { getTokenSuccess } from '../../redux/features/tokenSlice'
+import useLogin from '../../hooks/useLogin'
+import { userInfoSuccess } from '../../redux/features/userSlice'
 
 const Icon = styled.div`
     font-size: 24px;
@@ -39,7 +40,6 @@ const Error = styled.div`
 
 const Login = () => {
     const router = useRouter();
-    const { isFetching } = useSelector((state: any) => state.auth)
 
     const [show, setShow] = useState(false);
     const [data, setData] = useState({
@@ -50,6 +50,16 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('')
 
     const dispatch = useDispatch();
+    const handleSuccess = (res: any) => {
+        dispatch(getTokenSuccess(res.msg));
+        dispatch(userInfoSuccess(res.user));
+        router.push('/');
+    }
+    const handleError = () => {
+        console.log('Something went wrong');
+    }
+    const { mutate, isLoading } = useLogin(handleSuccess, handleError);
+    
 
     const handleLogin = async(e: { preventDefault: () => void }) => {
         e.preventDefault();
@@ -60,18 +70,7 @@ const Login = () => {
         } 
         else {
             setFields(false);
-
-            dispatch(postAuthStart());
-
-            try {
-                const res = await axiosInstance.post('/user/login', { email: data.email, password: data.password });
-                dispatch(postAuthSuccess(res.data));
-                router.push('/');
-            }
-            catch (err: any) {
-                dispatch(postAuthFailure())
-                setErrorMessage(err.response.data.msg);
-            }
+            mutate(data);
         }
     }
 
@@ -125,7 +124,7 @@ const Login = () => {
                 </div>
                 <Span onClick={() => router.push('/auth/forgot')}>Forgot Password?</Span>
                 {
-                    isFetching ? 
+                    isLoading ? 
                     <PromiseButton text='Loggin In' /> 
                     : 
                     <PrimaryButton text='Login' onClick={handleLogin} />

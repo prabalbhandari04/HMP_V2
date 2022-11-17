@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { useRouter } from 'next/router'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { postAuthFailure, postAuthStart, postAuthSuccess } from '../../redux/features/authSlice'
 
 import { FaRegDotCircle } from 'react-icons/fa'
 import { GoPrimitiveDot } from 'react-icons/go'
 
 import { PrimaryButton, PromiseButton } from '../../components/Button'
 import axiosInstance from '../../utils/axios.config'
+import useRegister from '../../hooks/useRegister'
 
 const Icon = styled.div`
     font-size: 24px;
@@ -32,7 +32,6 @@ const Error = styled.div`
 `
 
 const Register = () => {
-    const { isFetching, error } = useSelector((state: any) => state.auth)
     const router = useRouter();
 
     const [show, setShow] = useState({
@@ -52,6 +51,14 @@ const Register = () => {
     const [errorMessage, setErrorMessage] = useState('')
 
     const dispatch = useDispatch();
+    const handleSuccess = () => {
+        router.push('/auth/verify');
+    }
+    const handleError = (err: any) => {
+        setErrorMessage(err.response.data.msg);
+    }
+
+    const { mutate, isLoading } = useRegister(handleSuccess, handleError);
 
     const handleRegister = async(e: { preventDefault: () => void }) => {
         e.preventDefault();
@@ -80,18 +87,9 @@ const Register = () => {
             })
             setErrorMessage('')
 
-            dispatch(postAuthStart());
-
-            try {
-                const res = await axiosInstance.post('/user/register', { email: data.email, username: data.username, password: data.password });
-                dispatch(postAuthSuccess(res.data));
-                router.push('/auth/verify');
-            }
-            catch(err: any) {
-                dispatch(postAuthFailure());
-                console.log(err);
-                setErrorMessage(err.response.data.msg);
-            }
+            mutate({
+                email: data.email, username: data.username, password: data.password,
+            });
         }
     }
 
@@ -182,7 +180,7 @@ const Register = () => {
                 </div>
                 
                 {
-                    isFetching ? <PromiseButton text='Registering' /> : <PrimaryButton onClick={handleRegister} text='Register' />
+                    isLoading ? <PromiseButton text='Registering' /> : <PrimaryButton onClick={handleRegister} text='Register' />
                 }
             </form> 
         </div>

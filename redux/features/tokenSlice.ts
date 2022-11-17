@@ -1,33 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit/dist";
 
 const initialState = {
-    token: [],
-    isFetching: false,
+    token: '',
     error: false,
-    isValid: false,
+    isLogged: false,
 }
 
 const tokenSlice = createSlice({
     name: "token",
     initialState,
     reducers: {
-        getTokenStart: (state) => {
-            state.isFetching = true;
-            state.error = false;
-        },
         getTokenSuccess: (state, action) => {
-            state.isFetching = false;
             state.token = action.payload;
             state.error = false;
-            state.isValid = true;
+            state.isLogged = true;
         },
-        getTokenFailure: (state) => {
-            state.isFetching = false;
-            state.error = true;
-            state.isValid = false;
+        removeToken: (state) => {
+            state.token = '';
+            state.error = false;
+            state.isLogged = false;
         }
     }
 })
 
-export const { getTokenStart, getTokenSuccess, getTokenFailure } = tokenSlice.actions;
+export const { getTokenSuccess, removeToken } = tokenSlice.actions;
 export default tokenSlice.reducer;

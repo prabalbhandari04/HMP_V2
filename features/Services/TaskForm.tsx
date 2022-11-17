@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { RiFileUploadFill } from 'react-icons/ri'
 import { MdClose } from "react-icons/md"
-import { AiFillFilePdf, AiFillFileImage } from 'react-icons/ai'
+import { AiFillFileZip } from 'react-icons/ai'
 import { PrimaryButton } from '../../components/Button';
 
 const TagInput = styled.div`
@@ -38,6 +38,17 @@ const Tag = styled.div`
     }
 `
 const Input = styled.input`
+    background-color: ${({ theme }) => theme.neutral};
+    width: 100%;
+    border-radius: 4px;
+    padding: 1rem;
+    border: none;
+
+    &:focus {
+        outline: 1px solid ${({ theme }) => theme.primary};
+    }
+`
+const TextArea = styled.textarea`
     background-color: ${({ theme }) => theme.neutral};
     width: 100%;
     border-radius: 4px;
@@ -97,41 +108,16 @@ const Delete = styled.div`
     }
 `
 
-const ExpertForm = () => {
+const TaskForm = () => {
     const [tags, setTags] = useState<string[]>([]);
     const [error, setError] = useState<string>('');
 
-    const [qualification, setQualification] = useState<string>('');
-    const [bank, setBank] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
+    const [deadline, setDeadline] = useState<any>('');
+    const [format, setFormat] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     const [file, setFile] = useState<File | null>(null);
-    const [cvType, setCvType] = useState<string>('');
     const [cvName, setCvName] = useState<string>('');
-
-    const handleTags = (e: any) => {
-        
-        if (e.key === "," || e.key=== "Enter" && e.target.value !== "") {
-            setTags([...tags, e.target.value]);
-            e.target.value = "";
-        }
-        else if (e.key === "Backspace" && tags.length && e.target.value == 0){
-            const tagsCopy = [...tags];
-            tagsCopy.pop();
-            e.preventDefault();
-            setTags(tagsCopy);
-        }
-        else if(tags.length < 1 && e.key === "Backspace"){
-            setError("Since there is no tags you can't able to delete any tags");
-        }
-        else if(e.target.value == "" && e.key === "," || e.key === "Enter"){
-            setError("The tag should be one character long!");
-        }
-    }
-
-    const removeTags = (index: number) => {
-        const tagsCopy = [...tags];
-        tagsCopy.splice(index, 1);
-        setTags(tagsCopy);
-    }
 
     const handleUpload = (e: any) => {
         // upload file
@@ -139,55 +125,53 @@ const ExpertForm = () => {
         const uploaded_file = e.target.files[0];
         setFile(uploaded_file);
         setCvName(uploaded_file.name);
-        setCvType(uploaded_file.type);
     }
     const handleDelete = () => {
         setFile(null);
         setCvName('');
-        setCvType('');
     }
 
     return (
         <div className='flex flex-col gap-y-4'>
             <div className='flex flex-col gap-y-2'>
-                <label>Skills</label>
-                <TagInput>
-                    {
-                        tags.map((tag, index) => (
-                            <Tag key={index}>
-                                <p>{tag}</p>
-                                <MdClose onClick={() => removeTags(index)} />
-                            </Tag>
-                        ))      
-                    }
-                    <input 
-                        type='text' 
-                        placeholder='Press "," or "Enter" key to add a skill' 
-                        className='bg-transparent outline-none border-none flex-1'
-                        onKeyDown={(e) => {handleTags(e)}}   
-                    />
-                </TagInput>
-            </div>
-            <div className='flex flex-col gap-y-2'>
-                <label>Qualifications</label>
+                <label>Title</label>
                 <Input
                     type='text'
-                    placeholder='Bsc in Computer Science, +2, etc.,'
-                    value={qualification}
-                    onChange={(e) => setQualification(e.target.value)}
+                    placeholder='Web API Development for ....'
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
             </div>
             <div className='flex flex-col gap-y-2'>
-                <label>Bank A/C</label>
+                <label>Deadline</label>
+                <Input
+                    type='date'
+                    placeholder='Bsc in Computer Science, +2, etc.,'
+                    value={deadline}
+                    onChange={(e) => setDeadline(e.target.value)}
+                />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label>Format</label>
                 <Input
                     type='text'
-                    placeholder='Your account number for payment.'
-                    value={bank}
-                    onChange={(e) => setBank(e.target.value)}
+                    placeholder='APA7 / Previous Year Question'
+                    value={format}
+                    onChange={(e) => setFormat(e.target.value)}
+                />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label>Description</label>
+                <TextArea
+                    placeholder='This task is strictly required to be done using .....'
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={5}
+                    className='resize-none min-h-24'
                 />
             </div>
             <div className='flex flex-col gap-y-2 mb-8'>
-                <label>Upload C.V.</label>
+                <label>Upload Task Resource (Must be less than 50mb).</label>
                 {
                     cvName === '' ? 
                     <UploadBtn htmlFor='cv'>
@@ -196,12 +180,7 @@ const ExpertForm = () => {
                     </UploadBtn>
                     :
                     <FileUploaded>
-                        {
-                            cvType === 'application/pdf' ?
-                            <AiFillFilePdf />
-                            :
-                            <AiFillFileImage />
-                        }
+                        <AiFillFileZip />
                         <p>{cvName}</p>
 
                         <Delete className='absolute -right-2 -top-2 bg-red-600 rounded-full p-2' onClick={handleDelete}>
@@ -223,4 +202,4 @@ const ExpertForm = () => {
     )
 }
 
-export default ExpertForm
+export default TaskForm

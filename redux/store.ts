@@ -13,7 +13,6 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import authReducer from "./features/authSlice";
 import userReducer from "./features/userSlice";
 import tokenReducer from "./features/tokenSlice";
 
@@ -24,7 +23,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({ 
-    auth: authReducer,
     user: userReducer,
     token: tokenReducer,
 });
