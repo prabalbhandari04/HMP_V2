@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import { RiFileUploadFill } from 'react-icons/ri'
 import { MdClose } from "react-icons/md"
 import { AiFillFilePdf, AiFillFileImage } from 'react-icons/ai'
-import { PrimaryButton } from '../../components/Button';
+
+import { PrimaryButton, PromiseButton } from '../../components/Button';
+import useExpert from '../../hooks/useExpert';
 
 const TagInput = styled.div`
     width: 100%;
@@ -96,8 +99,25 @@ const Delete = styled.div`
         font-size: 16px;
     }
 `
+const MessageBox = styled.div<{ error: boolean }>`
+    background-color: ${props => props.error ? '#f1223a25' : '#1a9a1a25'};
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+
+    color: ${props => props.error ? '#f1223a' : '#1a9a1a'};
+    font-size: 16px;
+    font-weight: 400;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
 
 const ExpertForm = () => {
+    const { user } = useSelector((state: any) => state.user)
+
     const [tags, setTags] = useState<string[]>([]);
     const [error, setError] = useState<string>('');
 
@@ -107,8 +127,12 @@ const ExpertForm = () => {
     const [cvType, setCvType] = useState<string>('');
     const [cvName, setCvName] = useState<string>('');
 
+    const [message, setMessage] = useState({
+        error: false,
+        text: ''
+    });
+
     const handleTags = (e: any) => {
-        
         if (e.key === "," || e.key=== "Enter" && e.target.value !== "") {
             setTags([...tags, e.target.value]);
             e.target.value = "";
@@ -147,9 +171,61 @@ const ExpertForm = () => {
         setCvType('');
     }
 
+    const handleSuccess = () => {
+        setMessage({
+            error: false,
+            text: 'Your application has been submitted successfully!'
+        });
+    }
+    const handleError = (err: any) => {
+        setMessage({
+            error: true,
+            text: err.response.data.msg
+        });
+    }
+
+    const { mutate, isLoading } = useExpert(handleSuccess, handleError);
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        console.log(tags, qualification, bank, file, cvType, cvName);
+
+        const formData = new FormData();
+        formData.append('username', user.username);
+        formData.append('email', user.email);
+        formData.append('skills', tags.toString());
+        formData.append('qualification', qualification);
+        formData.append('bankAccount', bank);
+        formData.append('image', file!);
+        
+        console.log(formData)
+
+        if(tags.length < 1 || qualification === '' || bank === '' || file === null){
+            setMessage({
+                error: true,
+                text: 'All fields are required!'
+            });
+            return;
+        }
+
+        setTags([]);
+        setQualification('');
+        setBank('');
+        setFile(null);
+        setCvName('');
+        setCvType('');
+        mutate({userId: user._id, data: formData});
+    }
+
     return (
         <div className='flex flex-col gap-y-4'>
             <div className='flex flex-col gap-y-2'>
+                {
+                    message.text !== '' &&
+                    <MessageBox error={message.error}>
+                        {message.text}
+                    </MessageBox>
+                }
                 <label>Skills</label>
                 <TagInput>
                     {
@@ -218,7 +294,12 @@ const ExpertForm = () => {
                 />
             </div>
 
-            <PrimaryButton text='Submit' />
+            {
+                isLoading ? 
+                <PromiseButton text='Working' /> 
+                : 
+                <PrimaryButton text='Apply' onClick={handleSubmit} />
+            }
         </div>
     )
 }

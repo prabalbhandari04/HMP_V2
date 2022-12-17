@@ -2,16 +2,16 @@ import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { FaRegDotCircle } from 'react-icons/fa'
 import { GoPrimitiveDot } from 'react-icons/go'
 
 import { PrimaryButton, PromiseButton } from '../../components/Button'
 
-import { getTokenSuccess } from '../../redux/features/tokenSlice'
 import useLogin from '../../hooks/useLogin'
 import { userInfoSuccess } from '../../redux/features/userSlice'
+import { getTokenSuccess } from '../../redux/features/tokenSlice'
 
 const Icon = styled.div`
     font-size: 24px;
@@ -51,19 +51,21 @@ const Login = () => {
 
     const dispatch = useDispatch();
     const handleSuccess = (res: any) => {
-        dispatch(getTokenSuccess(res.msg));
         dispatch(userInfoSuccess(res.user));
+        dispatch(getTokenSuccess(res.access_token));
+        localStorage.setItem('token', res.access_token);
         router.push('/');
     }
-    const handleError = () => {
-        console.log('Something went wrong');
+    const handleError = (err: any) => {
+        setErrorMessage(err.response.data.msg);
+        console.log(err.response.data.msg);
     }
     const { mutate, isLoading } = useLogin(handleSuccess, handleError);
     
 
     const handleLogin = async(e: { preventDefault: () => void }) => {
         e.preventDefault();
-        console.log('chalirako xa')
+        setErrorMessage('');
 
         if (data.email === '' || data.password === '') {
             setFields(true);
