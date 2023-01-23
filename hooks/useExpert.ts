@@ -13,7 +13,7 @@ interface IExpert {
 }
 
 const expert = async ({ userId, data }: IExpert) => 
-    await axiosInstance.post(`upload/expert/createExpert/${userId}`, data, {
+    await axiosInstance.post("http://localhost:5000/upload/expert/createExpert/639c06fafe3b90f55ae5e6b7", data, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `${localStorage.getItem('token')}`
