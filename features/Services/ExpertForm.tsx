@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import { RiFileUploadFill } from 'react-icons/ri'
 import { MdClose } from "react-icons/md"
 import { AiFillFilePdf, AiFillFileImage } from 'react-icons/ai'
+import { HiChevronDown } from 'react-icons/hi'
 
 import { PrimaryButton, PromiseButton } from '../../components/Button';
 import useExpert from '../../hooks/useExpert';
@@ -14,7 +15,7 @@ const TagInput = styled.div`
     display: flex;
     align-items: center; 
     gap: 0.5rem;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 1rem;
     background-color: ${({ theme }) => theme.neutral};
     flex-wrap: wrap;
@@ -43,7 +44,7 @@ const Tag = styled.div`
 const Input = styled.input`
     background-color: ${({ theme }) => theme.neutral};
     width: 100%;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 1rem;
     border: none;
 
@@ -54,7 +55,7 @@ const Input = styled.input`
 const UploadBtn = styled.label`
     background: ${({ theme }) => theme.neutral};
     background: linear-gradient(317deg, ${({ theme }) => theme.neutral} 0%, ${({ theme }) => theme.text}15 100%);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -77,7 +78,7 @@ const FileUploaded = styled.div`
     position: relative;
 
     background: ${({ theme }) => theme.primary}25;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -99,7 +100,7 @@ const Delete = styled.div`
         font-size: 16px;
     }
 `
-const MessageBox = styled.div<{ error: boolean }>`
+export const MessageBox = styled.div<{ error: boolean }>`
     background-color: ${props => props.error ? '#f1223a25' : '#1a9a1a25'};
     border-radius: 8px;
     padding: 0.75rem 1rem;
@@ -114,6 +115,44 @@ const MessageBox = styled.div<{ error: boolean }>`
     align-items: center;
     justify-content: center;
 `
+const SelectField = styled.input`
+    background-color: ${({ theme }) => theme.neutral};
+    width: 100%;
+    border-radius: 8px;
+    padding: 1rem;
+    border: none;
+
+    &:focus {
+        outline: 1px solid ${({ theme }) => theme.primary};
+    }
+`
+const OptionBox = styled.div`
+    border-radius: 14px;
+    z-index: 1000;
+    border: 1px solid ${({theme}) => theme.primary}20;
+    width: 100%;
+    position: absolute;
+    top: 4rem;
+    background-color: white;
+    
+    .options {
+        padding: 1rem 1rem;
+        font-size: 16px;
+        font-weight: 400;
+        cursor: pointer;
+
+        &:first-child {
+            border-radius: 14px 14px 0 0;
+        }
+        &:last-child {
+            border-radius: 0 0 14px 14px;
+        }
+
+        &:hover {
+            background-color: ${({ theme }) => theme.primary}25;
+        }
+    }
+`
 
 const ExpertForm = () => {
     const { user } = useSelector((state: any) => state.user)
@@ -122,6 +161,10 @@ const ExpertForm = () => {
     const [error, setError] = useState<string>('');
 
     const [qualification, setQualification] = useState<string>('');
+    const [selectOpen, setSelectOpen] = useState<boolean>(false);
+    const [ qualificationOptions, setQualificationOptions ] = useState<string[]>([
+        'High School', 'Bachelors', 'Masters', 'PhD', 'Other'
+    ]);
     const [bank, setBank] = useState<string>('');
     const [file, setFile] = useState<File | null>(null);
     const [cvType, setCvType] = useState<string>('');
@@ -131,6 +174,17 @@ const ExpertForm = () => {
         error: false,
         text: ''
     });
+
+    useEffect(() => {
+        if(message.text !== '') {
+            setTimeout(() => {
+                setMessage({
+                    ...message,
+                    text: ''
+                })
+            }, 5000)
+        }
+    }, [message])
 
     const handleTags = (e: any) => {
         if (e.key === "," || e.key=== "Enter" && e.target.value !== "") {
@@ -188,7 +242,7 @@ const ExpertForm = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        console.log(tags, qualification, bank, file, cvType, cvName);
+        console.debug(tags, qualification, bank, file, cvType, cvName);
 
         const formData = new FormData();
         formData.append('username', user.username);
@@ -198,7 +252,7 @@ const ExpertForm = () => {
         formData.append('bankAccount', bank);
         formData.append('image', file!);
         
-        console.log(formData)
+        console.debug(formData)
 
         if(tags.length < 1 || qualification === '' || bank === '' || file === null){
             setMessage({
@@ -246,12 +300,29 @@ const ExpertForm = () => {
             </div>
             <div className='flex flex-col gap-y-2'>
                 <label>Qualifications</label>
-                <Input
+                {/* <Input
                     type='text'
                     placeholder='Bsc in Computer Science, +2, etc.,'
                     value={qualification}
                     onChange={(e) => setQualification(e.target.value)}
-                />
+                /> */}
+                <div className='relative w-full'>
+                    <SelectField placeholder='--Select your latest qualification--' disabled value={qualification} />
+                    <HiChevronDown className={`absolute right-4 top-5 text-[24px] ${selectOpen && 'rotate-180'} transition`} onClick={() => setSelectOpen((prev) => !prev)} />
+                    {
+                        selectOpen &&
+                        <OptionBox>
+                            {
+                                qualificationOptions.map((item: string, index: number) => (
+                                    <div className='options' key={index} onClick={() => {setQualification(item); setSelectOpen(false)}}>
+                                        <p>{item}</p>
+                                    </div>
+                                ))
+                            }
+                        </OptionBox>
+                    }
+                </div>
+                    
             </div>
             <div className='flex flex-col gap-y-2'>
                 <label>Bank A/C</label>
@@ -296,7 +367,7 @@ const ExpertForm = () => {
 
             {
                 isLoading ? 
-                <PromiseButton text='Working' /> 
+                <PromiseButton text='Sending Application..' /> 
                 : 
                 <PrimaryButton text='Apply' onClick={handleSubmit} />
             }

@@ -14,6 +14,7 @@
     "aos": "^2.3.4",
     "autoprefixer": "latest",
     "axios": "^0.27.2",
+    "iconsax-react": "^0.0.8",
     "next": "12.3.0",
     "postcss": "latest",
     "react": "18.2.0",
