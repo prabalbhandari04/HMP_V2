@@ -61,10 +61,10 @@ const Profile = () => {
 
     return (
         <div className='flex flex-col w-full min-h-[80vh] mt-8'>
-            <ProfileHead className='h-52 w-full flex items-end justify-between px-8 py-2 rounded-md'>
-                <div className='flex items-end gap-x-8'>
+            <ProfileHead className='h-max md:h-52 w-full flex flex-col md:flex-row items-center md:items-end justify-between px-8 py-2 rounded-md'>
+                <div className='flex flex-col md:flex-row items-center md:items-end gap-x-8'>
                     <img src={avatar} alt='profile' className='rounded-full w-36 h-auto' />
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col items-center md:items-start mt-4 md:mt-0'>
                         <h2>{user.username}</h2>
                         <p>{user.email}</p>
                     </div>
@@ -72,7 +72,7 @@ const Profile = () => {
                 <FlatButton text='Logout' onClick={handleLogout}/>
             </ProfileHead>
 
-            <div className='flex gap-x-12 w-full h-[calc(80vh-208px)]'>
+            <div className='flex flex-col lg:flex-row gap-x-12 w-full min-h-[calc(80vh-208px)]'>
                 <div className='flex-1'>
                     <Tasks tasksData={tasks} />
                 </div>
