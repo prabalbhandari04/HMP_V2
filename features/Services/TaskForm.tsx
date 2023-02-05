@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 
 import { RiFileUploadFill } from 'react-icons/ri'
 import { MdClose } from "react-icons/md"
 import { AiFillFileZip } from 'react-icons/ai'
-import { PrimaryButton } from '../../components/Button';
+import { PrimaryButton, PromiseButton } from '../../components/Button';
+import { MessageBox } from './ExpertForm';
+import useAssignTask from '../../hooks/useAssignTask';
+import { useSelector } from 'react-redux';
 
 const TagInput = styled.div`
     width: 100%;
@@ -109,8 +112,7 @@ const Delete = styled.div`
 `
 
 const TaskForm = () => {
-    const [tags, setTags] = useState<string[]>([]);
-    const [error, setError] = useState<string>('');
+    const { user } = useSelector((state: any) => state.user)
 
     const [title, setTitle] = useState<string>('');
     const [deadline, setDeadline] = useState<any>('');
@@ -118,6 +120,22 @@ const TaskForm = () => {
     const [description, setDescription] = useState<string>('');
     const [file, setFile] = useState<File | null>(null);
     const [cvName, setCvName] = useState<string>('');
+
+    const [message, setMessage] = useState({
+        error: false,
+        text: ''
+    });
+
+    useEffect(() => {
+        if(message.text !== '') {
+            setTimeout(() => {
+                setMessage({
+                    ...message,
+                    text: ''
+                })
+            }, 5000)
+        }
+    }, [message])
 
     const handleUpload = (e: any) => {
         // upload file
@@ -131,9 +149,97 @@ const TaskForm = () => {
         setCvName('');
     }
 
+    const handleSuccess = () => {
+        setMessage({
+            error: false,
+            text: 'Your task has been submitted successfully!'
+        });
+    }
+    const handleError = (err: any) => {
+        if(err.response.data.msg !== undefined) {
+            setMessage({
+                error: true,
+                text: err.response.data.msg
+            });
+        }
+        else {
+            setMessage({
+                error: true,
+                text: 'Something went wrong. Please try again later and if still persists, please contact us @support@handlemypaper.com.'
+            });
+        }
+    }
+
+    const { mutate, isLoading } = useAssignTask(handleSuccess, handleError);
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        if (title === '') {
+            setMessage({
+                error: true,
+                text: 'Title is required.'
+            });
+            return;
+        }
+        if (deadline === '') {
+            setMessage({
+                error: true,
+                text: 'Deadline is required.'
+            });
+            return;
+        }
+        if (format === '') {
+            setMessage({
+                error: true,
+                text: 'Format is required.'
+            });
+            return;
+        }
+        if (description === '') {
+            setMessage({
+                error: true,
+                text: 'Description is required.'
+            })
+            return;
+        }
+        if (file === null) {
+            setMessage({
+                error: true,
+                text: 'Question is required.'
+            })
+            return;
+        }
+        if (file.size > 52428800) {
+            setMessage({
+                error: true,
+                text: 'File size is too large.'
+            })
+            return;
+        }
+        
+        
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('deadline', deadline);
+        formData.append('format', format);
+        formData.append('description', description);
+        formData.append('question', file!);
+
+        mutate({
+            userId: user._id, data: formData
+        });
+        
+    }
+
     return (
         <div className='flex flex-col gap-y-4'>
             <div className='flex flex-col gap-y-2'>
+                {
+                    message.text !== '' &&
+                    <MessageBox error={message.error}>
+                        {message.text}
+                    </MessageBox>
+                }
                 <label>Title</label>
                 <Input
                     type='text'
@@ -197,7 +303,12 @@ const TaskForm = () => {
                 />
             </div>
 
-            <PrimaryButton text='Submit' />
+            {
+                isLoading ? 
+                <PromiseButton text='Informing Admins..' /> 
+                : 
+                <PrimaryButton text='Apply' onClick={handleSubmit} />
+            }
         </div>
     )
 }
